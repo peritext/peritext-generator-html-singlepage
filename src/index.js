@@ -16,7 +16,7 @@ function generateOutput ( {
   locale = {},
   outputPath,
   requestAssetData,
-  basePath,
+  templatesBundlesPath,
 } ) {
 
   let loadedProduction;
@@ -31,7 +31,7 @@ function generateOutput ( {
           ...initialProduction,
           assets: loadedAssets
         };
-      const templatePath = `${basePath}/app/htmlBuilds/single-page-html/${edition.metadata.templateId}/index.html`;
+      const templatePath = `${templatesBundlesPath}/${edition.metadata.templateId}/index.html`;
       return readFile( templatePath, 'utf8' );
     } )
     .then( ( template ) => {

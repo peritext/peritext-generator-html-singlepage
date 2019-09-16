@@ -19,7 +19,7 @@ function generateOutput({
   locale = {},
   outputPath,
   requestAssetData,
-  basePath
+  templatesBundlesPath
 }) {
   let loadedProduction;
   return new Promise((resolve, reject) => {
@@ -31,7 +31,7 @@ function generateOutput({
       loadedProduction = _objectSpread({}, initialProduction, {
         assets: loadedAssets
       });
-      const templatePath = `${basePath}/app/htmlBuilds/single-page-html/${edition.metadata.templateId}/index.html`;
+      const templatePath = `${templatesBundlesPath}/${edition.metadata.templateId}/index.html`;
       return (0, _fsExtra.readFile)(templatePath, 'utf8');
     }).then(template => {
       const HTMLMetadata = (0, _peritextUtils.buildHTMLMetadata)(loadedProduction);
