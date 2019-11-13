@@ -2,6 +2,7 @@ import { writeFile, readFile } from 'fs-extra';
 
 import {
   loadAssetsForEdition,
+  preprocessEditionData,
   buildHTMLMetadata,
 } from 'peritext-utils';
 
@@ -35,10 +36,12 @@ function generateOutput ( {
       return readFile( templatePath, 'utf8' );
     } )
     .then( ( template ) => {
+      const preprocessedData = preprocessEditionData( { production: loadedProduction, edition } );
       const HTMLMetadata = buildHTMLMetadata( loadedProduction );
       const html = template
           .replace( '${metadata}', HTMLMetadata )
           .replace( '${productionJSON}', JSON.stringify( loadedProduction ) )
+          .replace( '${preprocessedDataJSON}', JSON.stringify( preprocessedData ) )
           .replace( '${editionId}', `"${edition.id}"` )
           .replace( '${locale}', JSON.stringify( locale ) );
       return writeFile( outputPath, html, 'utf8' );

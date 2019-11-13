@@ -34,8 +34,12 @@ function generateOutput({
       const templatePath = `${templatesBundlesPath}/${edition.metadata.templateId}/index.html`;
       return (0, _fsExtra.readFile)(templatePath, 'utf8');
     }).then(template => {
+      const preprocessedData = (0, _peritextUtils.preprocessEditionData)({
+        production: loadedProduction,
+        edition
+      });
       const HTMLMetadata = (0, _peritextUtils.buildHTMLMetadata)(loadedProduction);
-      const html = template.replace('${metadata}', HTMLMetadata).replace('${productionJSON}', JSON.stringify(loadedProduction)).replace('${editionId}', `"${edition.id}"`).replace('${locale}', JSON.stringify(locale));
+      const html = template.replace('${metadata}', HTMLMetadata).replace('${productionJSON}', JSON.stringify(loadedProduction)).replace('${preprocessedDataJSON}', JSON.stringify(preprocessedData)).replace('${editionId}', `"${edition.id}"`).replace('${locale}', JSON.stringify(locale));
       return (0, _fsExtra.writeFile)(outputPath, html, 'utf8');
     }).then(resolve).catch(reject);
   });
